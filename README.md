@@ -1,17 +1,17 @@
-# AegisCloud – Automated Malware Scanning in AWS with Lambda & YARA
+# AegisCloudScanner – Automated Malware Scanning in AWS with Lambda & YARA
 
-AegisCloud is a cloud-native, serverless malware detection solution built on AWS Lambda that automates malware scanning and quarantining for files uploaded to Amazon S3. Leveraging custom YARA rules, AegisCloud inspects every S3 file upload in real time, immediately isolating matched threats to a secure quarantine bucket. The project is ideal for cloud security research, DevSecOps pipelines, and compliance use-cases.
+AegisCloudScanner is a cloud-native, serverless malware detection framework built for AWS Lambda, automating malware scanning and S3 file quarantining using YARA rules. Every file uploaded to your monitored S3 bucket is inspected in real time, and detected threats are instantly isolated in a secure quarantine bucket. This solution is designed for cloud security, DevSecOps pipelines, and compliance-focused workflows.
 
 ---
 
 ## 🚀 Features
 
-- **AWS Lambda serverless architecture** — no servers to manage, auto-scales with usage.
-- **YARA-powered scanning** — easily extend detection for any file types or threats.
-- **Automatic quarantine** — detected threats are moved instantly to a secure S3 bucket.
-- **Modular workflow** — add SNS/email notifications or DynamoDB logging in minutes.
-- **Easy deployment** — just upload your code, configure S3 triggers, and go.
-- **Sample YARA rules & test file instructions provided.**
+- **Serverless AWS Lambda workflow** — scalable, no server management required.
+- **YARA-based threat detection** — extendable to any malware/indicator patterns.
+- **Real-time quarantine** — infected files auto-moved to a dedicated S3 bucket.
+- **Modular integrations** — easily add email/SNS notifications, logging, or third-party alerts.
+- **Simple deployment** — upload the Lambda code, attach your YARA rules, and set the S3 trigger.
+- **Sample rules and test instructions included.**
 
 ---
 
@@ -19,70 +19,66 @@ AegisCloud is a cloud-native, serverless malware detection solution built on AWS
 
 - **AWS Lambda (Python)**
 - **Amazon S3**
-- **YARA** (using Python package and Lambda Layer)
-- (Optional: AWS SNS, DynamoDB, Slack, other integrations)
+- **YARA (with Python bindings and Lambda Layer)**
+- (Optional: AWS SNS, DynamoDB, Slack)
 
 ---
 
 ## ⚡ Getting Started
 
 ### 1. **Clone or Fork this repository**
-git clone https://github.com/manivardhan7/AGIES-CLOUD-.git
-cd AGIES-CLOUD-
+git clone https://github.com/manivardhan7/AegisCloudScanner.git
+cd AegisCloudScanner
 
 
+### 2. **Deploy Lambda Function**
+- Create a new AWS Lambda for Python 3.9+.
+- Upload `app.py` and dependencies (add YARA as a custom layer).
+- Connect to your S3 upload bucket (triggered on object created events).
 
-### 2. **Deploy to AWS Lambda**
-- Create a new AWS Lambda function (Python 3.9+ recommended).
-- Upload `app.py` and any dependencies/layers (YARA).
-- Configure your Lambda with S3 event triggers for your **uploads** bucket.
+### 3. **Configure S3 Buckets**
+- **aegiscloud-threat-uploads:** receives incoming files.
+- **aegiscloud-threat-quarantine:** receives detected threats.
 
-### 3. **Configure your S3 buckets**
-- **aegiscloud-threat-uploads:** For incoming files.
-- **aegiscloud-threat-quarantine:** For isolating threats.
+### 4. **Edit/Add YARA Rules**
+- Place your threat signatures into `malicious_rules.yar` or your custom rules file.
 
-### 4. **Add or Edit YARA Rules**
-- Update `malicious_rules.yar` (or your preferred rules file).
-- Place known signatures (like EICAR) for safe testing.
-
-### 5. **Test the Pipeline**
-- Upload a test file (e.g. EICAR string) to the uploads bucket.
-- Confirm the file is automatically moved to quarantine if detected.
+### 5. **Test Your Pipeline**
+- Upload a test file (e.g. EICAR test file) to the uploads bucket.
+- If detected, your Lambda function will move it to quarantine.
 
 ---
 
-## 🔒 Security & Usage Notes
+## 🔒 Security & Usage
 
-- **Never use real malware for production testing!** Use industry-standard test files like [EICAR](https://www.eicar.org/download-anti-malware-testfile/).
-- Do NOT include credentials, secrets, or sensitive config in your public repo.
-- Advanced: Integrate alerts, custom response actions, or logging as needed.
+- For testing, use [EICAR test files](https://www.eicar.org/download-anti-malware-testfile/); never use real malware in production environments.
+- Exclude sensitive data (AWS credentials, secrets) from your repo.
+- Expand with alerting/logging as needed for your security workflow.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file.
 
 ---
 
-## 🙋‍♂️ Author
+## 🙋 Author
 
 - **manivardhan7** (https://github.com/manivardhan7)
-- Pull requests and feedback are welcome!
 
 ---
 
 ## 💡 Example Use Cases
 
-- Cloud upload security for SaaS, data storage, or enterprise apps.
-- Automated DevOps malware pipeline for continuous file scanning.
-- Security research into YARA rule performance and tuning.
+- Cloud-based malware filtering for SaaS and S3 data lakes.
+- Serverless threat response and workflow automation.
+- Research platform for YARA rule evaluation and improvement.
 
 ---
 
-## 📚 Resources
+## 📚 References
 
-- [AWS Lambda Documentation](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
-- [YARA Rule Docs](https://yara.readthedocs.io/en/stable/)
-- [EICAR test file](https://www.eicar.org/download-anti-malware-testfile/)
-
+- [AWS Lambda Docs](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
+- [YARA Rule Documentation](https://yara.readthedocs.io/en/stable/)
+- [EICAR Test File](https://www.eicar.org/download-anti-malware-testfile/)
